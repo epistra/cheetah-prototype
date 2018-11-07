@@ -5,7 +5,7 @@
         <v-card-title>
           {{ task.todo.title }}
         </v-card-title>
-        <v-card-actions>
+        <v-card-text>
           <v-form lazy-validation>
             <v-text-field
               :value="task.todo.goal"
@@ -23,7 +23,7 @@
               required>
             </v-text-field>
           </v-form>
-        </v-card-actions>
+        </v-card-text>
       </v-card>
     </v-flex>
   </v-layout>

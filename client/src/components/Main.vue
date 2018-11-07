@@ -10,6 +10,7 @@
           <todolist
             :tags="tags"
             :tasks="tasks"
+            @add-todo="addTodo"
             @toggle-execution="toggleExecution"/>
         </v-flex>
         <v-flex xs3 class="pa-1">
@@ -120,8 +121,12 @@ export default {
       return this.todos.find(t => t.id === todoId);
     },
 
-    getTasks(todoId) {
+    getTask(todoId) {
       return this.tasks.find(t => t.todo.id === todoId);
+    },
+
+    getTag(tagId) {
+      return this.tags.find(t => t.id === tagId);
     },
 
     async toggleExecution(todoId) {
@@ -145,10 +150,19 @@ export default {
 
     async updateTodoEstimation(todoId, newEstimation) {
       await this.updateTodo(todoId, { estimation: parseInt(newEstimation, 10) });
-      const task = this.getTasks(todoId);
+      const task = this.getTask(todoId);
       if (task) {
         this.allocateTasks();
       }
+    },
+
+    async addTodo(title, tagId) {
+      const todoResponse = await axios.post('/api/v1/todos', { title });
+      const todo = items.makeTodo(todoResponse.data);
+      const tagResponse = await axios.post(`/api/v1/tags/${tagId}/todos`, { todo_id: todo.id });
+      const tag = this.getTag(tagResponse.data.id);
+      tag.todos.push(todo); // TODO: update tag using a post request response
+      return todo;
     },
 
     allocateTasks() {

@@ -97,6 +97,15 @@ def get_todos():
     return (jsonify([todo.as_dict() for todo in todos]), 200)
 
 
+@app.route("/api/v1/todos", methods=["POST"])
+def add_todo():
+    content = json.loads(request.data)
+    todo = Todo(title=content["title"])
+    db.session.add(todo)
+    db.session.commit()
+    return (jsonify(todo.as_dict()), 201)
+
+
 @app.route("/api/v1/todos/<int:todo_id>", methods=["PUT"])
 def update_todo(todo_id):
     content = json.loads(request.data)
@@ -143,6 +152,17 @@ def delete_task(task_id):
 def get_tags():
     tags = Tag.query.all()
     return (jsonify([tag.as_dict() for tag in tags]), 200)
+
+
+@app.route("/api/v1/tags/<int:tag_id>/todos", methods=["POST"])
+def add_tag_item(tag_id):
+    content = json.loads(request.data)
+    tag = Tag.query.filter(Tag.id == tag_id).first()
+    todo = Todo.query.filter(Todo.id == content["todo_id"]).first()
+    tag.todos.append(todo)
+    db.session.add(tag)
+    db.session.commit()
+    return (jsonify(tag.as_dict()), 201)
 
 
 # db initialization
