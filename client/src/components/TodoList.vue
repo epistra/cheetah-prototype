@@ -21,11 +21,11 @@
       <v-card>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn flat @click.native="openTodoAdditionDialog()">Add</v-btn>
+          <v-btn flat @click.native="openTodoAdditionDialog()">Add Todo</v-btn>
           <v-dialog v-model="dialog.active" max-width="600px">
             <v-card>
               <v-card-title>
-                Add todo
+                Add Todo
               </v-card-title>
               <v-card-text>
                 <v-form lazy-validation>

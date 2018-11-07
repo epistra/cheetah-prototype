@@ -185,28 +185,8 @@ def init_db():
     db.drop_all()
     db.create_all()
 
-    todos = [Todo(title="Todo {}".format(i+1)) for i in range(8)]
-    for todo in todos:
-        db.session.add(todo)
-
-    tags = [
-        Tag(title="Tag 1", todos=todos[0:3]),
-        Tag(title="Tag 2", todos=todos[3:5]),
-        Tag(title="Tag 3", todos=todos[5:])
-    ]
-    for tag in tags:
-        db.session.add(tag)
-
-    def get_time(hour):
-        return datetime.datetime.today().replace(hour=hour, minute=0, second=0, microsecond=0)
-
-    schedules = [
-        Schedule(title="Schedule 1", start=get_time(12), end=get_time(13)),
-        Schedule(title="Schedule 2", start=get_time(14), end=get_time(15)),
-    ]
-    for schedule in schedules:
-        db.session.add(schedule)
-
+    todo_tag = Tag(title="Todo", todos=[])
+    db.session.add(todo_tag)
     db.session.commit()
     print("Finished initializing all tables.")
 
