@@ -19,7 +19,7 @@
         <v-flex xs4 class="pa-1">
           <timeline
             :tasks="scheduledTasks"
-            :schedules="schedules"
+            :schedules="todaysSchedules"
             @add-schedule="addSchedule"/>
         </v-flex>
       </v-layout>
@@ -79,6 +79,10 @@ export default {
   computed: {
     scheduledTasks() {
       return this.tasks.filter(task => task.isScheduled);
+    },
+    todaysSchedules() {
+      const today = momentUtils.getTodayRange();
+      return this.schedules.filter(s => momentUtils.contain(today, s));
     },
   },
   methods: {

@@ -13,8 +13,17 @@ export default {
     return { start, end };
   },
 
+  getTodayRange() {
+    // TODO: fix end time
+    return this.getRange(this.getTime(0, 0), this.getTime(23, 59));
+  },
+
   getUnixtimeDuration(start, end) {
     return end.unix() - start.unix();
+  },
+
+  contain(range, target) {
+    return range.start.unix() <= target.start.unix() && target.end.unix() <= range.end.unix();
   },
 
   mergeTimeRanges(ranges) {
