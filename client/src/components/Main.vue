@@ -20,7 +20,7 @@
             @update-estimation="updateTodoEstimation"/>
         </v-flex>
         <v-flex xs3 class="pa-1">
-          <schedule
+          <timeline
             :tasks="scheduledTasks"
             :schedules="schedules"/>
         </v-flex>
@@ -36,7 +36,7 @@ import NavigationVar from './NavigationBar';
 import Calendar from './Calendar';
 import TodoList from './TodoList';
 import TaskList from './TaskList';
-import Schedule from './Schedule';
+import Timeline from './Timeline';
 import items from './items';
 import momentUtils from './momentUtils';
 
@@ -76,7 +76,7 @@ export default {
     todolist: TodoList,
     tasklist: TaskList,
     calendar: Calendar,
-    schedule: Schedule,
+    timeline: Timeline,
   },
   computed: {
     scheduledTasks() {
