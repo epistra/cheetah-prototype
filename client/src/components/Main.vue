@@ -3,9 +3,6 @@
     <navigation-bar></navigation-bar>
     <v-container fluid text-xs-center>
       <v-layout row wrap>
-        <v-flex xs2 class="pa-1">
-          <calendar/>
-        </v-flex>
         <v-flex xs4 class="pa-1">
           <todolist
             :tags="tags"
@@ -13,13 +10,13 @@
             @add-todo="addTodo"
             @toggle-execution="toggleExecution"/>
         </v-flex>
-        <v-flex xs3 class="pa-1">
+        <v-flex xs4 class="pa-1">
           <tasklist
             :tasks="tasks"
             @update-goal="updateTodoGoal"
             @update-estimation="updateTodoEstimation"/>
         </v-flex>
-        <v-flex xs3 class="pa-1">
+        <v-flex xs4 class="pa-1">
           <timeline
             :tasks="scheduledTasks"
             :schedules="schedules"/>
