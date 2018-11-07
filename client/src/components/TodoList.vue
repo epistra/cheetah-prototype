@@ -22,14 +22,14 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn flat @click.native="openTodoAdditionDialog()">Add</v-btn>
-          <v-dialog v-model="dialog" max-width="600px">
+          <v-dialog v-model="dialog.active" max-width="600px">
             <v-card>
               <v-card-title>
                 Add todo
               </v-card-title>
               <v-card-text>
                 <v-form lazy-validation>
-                  <v-text-field v-model="title" lazy label="Title"/>
+                  <v-text-field v-model="dialog.title" lazy label="Title"/>
                 </v-form>
               </v-card-text>
               <v-card-actions>
@@ -49,8 +49,10 @@ export default {
   data() {
     return {
       activeTab: null,
-      dialog: false,
-      title: '',
+      dialog: {
+        active: false,
+        title: '',
+      },
     };
   },
   props: ['tags', 'tasks'],
@@ -62,13 +64,13 @@ export default {
       this.$emit('toggle-execution', todo.id);
     },
     openTodoAdditionDialog() {
-      this.dialog = true;
+      this.dialog.active = true;
     },
     addTodo() {
-      this.$emit('add-todo', this.title, this.tags[this.activeTab].id);
-      this.dialog = false;
-      this.title = '';
-    }
+      this.$emit('add-todo', this.dialog.title, this.tags[this.activeTab].id);
+      this.dialog.active = false;
+      this.dialog.title = '';
+    },
   },
 };
 </script>

@@ -19,7 +19,8 @@
         <v-flex xs4 class="pa-1">
           <timeline
             :tasks="scheduledTasks"
-            :schedules="schedules"/>
+            :schedules="schedules"
+            @add-schedule="addSchedule"/>
         </v-flex>
       </v-layout>
     </v-container>
@@ -160,6 +161,17 @@ export default {
       const tag = this.getTag(tagResponse.data.id);
       tag.todos.push(todo); // TODO: update tag using a post request response
       return todo;
+    },
+
+    async addSchedule(title, start, end) {
+      const response = await axios.post('/api/v1/schedules', { title, start, end });
+      const args = Object.assign({}, response.data, {
+        start: moment.unix(response.data.start).local(),
+        end: moment.unix(response.data.end).local(),
+      });
+      const schedule = items.makeSchedule(args);
+      this.schedules.push(schedule);
+      return schedule;
     },
 
     allocateTasks() {

@@ -124,6 +124,17 @@ def get_schedules():
     return (jsonify([schedule.as_dict() for schedule in schedules]), 200)
 
 
+@app.route("/api/v1/schedules", methods=["POST"])
+def add_schedule():
+    content = json.loads(request.data)
+    start = datetime.datetime.fromtimestamp(content["start"])
+    end = datetime.datetime.fromtimestamp(content["end"])
+    schedule = Schedule(title=content["title"], start=start, end=end)
+    db.session.add(schedule)
+    db.session.commit()
+    return (jsonify(schedule.as_dict()), 201)
+
+
 # Tasks
 @app.route("/api/v1/tasks", methods=["GET"])
 def get_tasks():
