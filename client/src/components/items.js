@@ -15,28 +15,30 @@ class Schedule {
 }
 
 class Todo {
-  constructor(id, title, goal = '', estimation = 0) {
+  constructor(id, title, goal = '', estimation = 0, isFinished = false) {
     this.id = id;
     this.title = title;
     this.goal = goal;
     this.estimation = estimation;
+    this.isFinished = isFinished;
   }
 
   get type() { return 'todo'; }
-  get isValid() { return this.goal !== '' && this.estimation > 0; }
+  get isValid() { return this.goal !== '' && this.estimation > 0 && !this.isFinished; }
   get duration() { return moment.duration(this.estimation, 'minutes').asSeconds(); }
   update(args) {
     this.title = args.title;
     this.goal = args.goal;
     this.estimation = args.estimation;
+    this.isFinished = args.isFinished;
   }
 }
 
 class Task {
-  constructor(id, todo) {
+  constructor(id, todo, start = null) {
     this.id = id;
     this.todo = todo;
-    this.start = null;
+    this.start = start;
   }
 
   get title() { return this.todo.title; }
@@ -76,7 +78,7 @@ export default {
     return tasks.slice().sort((l, r) => l.start.unix() - r.start.unix());
   },
 
-  makeTodo(args) { return new Todo(args.id, args.title, args.goal, args.estimation); },
+  makeTodo(args) { return new Todo(args.id, args.title, args.goal, args.estimation, args.isFinished); },
 
   makeSchedule(args) { return new Schedule(args.id, args.start, args.end, args.title); },
 

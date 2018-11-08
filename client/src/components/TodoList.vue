@@ -6,7 +6,9 @@
     <v-tab-item v-for="tag in tags" :key="tag.id">
       <v-card>
         <v-list>
-          <v-list-tile v-for="todo in tag.todos" :key="todo.id">
+          <v-list-tile
+            v-for="todo in tag.todos.filter(t => !t.isFinished)"
+            :key="todo.id">
             <v-layout row wrap>
               <v-flex xs11 text-xs-left>{{ todo.title }}</v-flex>
               <v-flex xs1>

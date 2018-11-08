@@ -24,6 +24,10 @@
             </v-text-field>
           </v-form>
         </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn flat @click="finishTask(task)">Finish</v-btn>
+        </v-card-actions>
       </v-card>
     </v-flex>
   </v-layout>
@@ -44,6 +48,9 @@ export default {
     updateEstimation(task, newEstimation) {
       this.$emit('update-estimation', task.todo.id, newEstimation);
     },
+    finishTask(task) {
+      this.$emit('finish-task', task.todo.id);
+    }
   },
 };
 </script>

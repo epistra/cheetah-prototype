@@ -14,7 +14,8 @@
           <tasklist
             :tasks="tasks"
             @update-goal="updateTodoGoal"
-            @update-estimation="updateTodoEstimation"/>
+            @update-estimation="updateTodoEstimation"
+            @finish-task="finishTask"/>
         </v-flex>
         <v-flex xs4 class="pa-1">
           <timeline
@@ -161,9 +162,16 @@ export default {
     async addTodo(title, tagId) {
       const todoResponse = await axios.post('/api/v1/todos', { title });
       const todo = items.makeTodo(todoResponse.data);
+      this.todos.push(todo);
       const tagResponse = await axios.post(`/api/v1/tags/${tagId}/todos`, { todo_id: todo.id });
       const tag = this.getTag(tagResponse.data.id);
       tag.todos.push(todo); // TODO: update tag using a post request response
+      return todo;
+    },
+
+    async finishTask(todoId) {
+      await this.toggleExecution(todoId); // TODO: Save task history
+      const todo = await this.updateTodo(todoId, { isFinished: true });
       return todo;
     },
 

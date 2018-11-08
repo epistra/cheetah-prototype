@@ -34,13 +34,15 @@ class Todo(db.Model):
     title = db.Column(db.String(255), nullable=False)
     goal = db.Column(db.String(255), nullable=False, default="")
     estimation = db.Column(db.Integer, nullable=False, default=0)
+    is_finished = db.Column(db.Boolean, nullable=False, default=False)
 
     def as_dict(self):
         return {
             "id": self.id,
             "title": self.title,
             "goal": self.goal,
-            "estimation": self.estimation
+            "estimation": self.estimation,
+            "isFinished": self.is_finished
         }
 
 
@@ -109,10 +111,12 @@ def add_todo():
 @app.route("/api/v1/todos/<int:todo_id>", methods=["PUT"])
 def update_todo(todo_id):
     content = json.loads(request.data)
+    app.logger.debug("content: {}".format(content))
     todo = Todo.query.filter(Todo.id == todo_id).first()
     todo.title = content["title"]
     todo.goal = content["goal"]
     todo.estimation = content["estimation"]
+    todo.is_finished = content["isFinished"]
     db.session.commit()
     return (jsonify(todo.as_dict()), 201)
 
